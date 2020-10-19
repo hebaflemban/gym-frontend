@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import {fetchAuthors, fetchBookings, fetchBooks} from "./redux/actions"
 
 // Components
 import AddAuthorCard from "./AddAuthorCard";
@@ -7,7 +8,7 @@ import AuthorCard from "./AuthorCard";
 import SearchBar from "./SearchBar";
 import Loading from "./Loading";
 
-const AuthorsList = ({ authors, loading, user }) => {
+const AuthorsList = ({ authors, loading, user, fetchAuthors, fetchBooks, fetchBookings }) => {
   const [query, setQuery] = useState("");
 
   const filterAuthors = () => {
@@ -18,7 +19,11 @@ const AuthorsList = ({ authors, loading, user }) => {
     });
   };
 
-  if (loading) return <Loading />;
+  if (loading) {
+      fetchAuthors()
+      fetchBooks()
+      fetchBookings()
+      return <Loading />;}
 
   const authorCards = filterAuthors().map((author) => (
     <AuthorCard
@@ -29,7 +34,7 @@ const AuthorsList = ({ authors, loading, user }) => {
 
   return (
     <div className="authors">
-      <h3>Authors</h3>
+      <h3>GYMS</h3>
       <SearchBar onChange={setQuery} />
       <div className="row">
           {user && <AddAuthorCard/>}
@@ -44,5 +49,9 @@ const mapStateToProps = ({ authors, user }) => ({
   user,
   loading: !authors.length,
 });
-
-export default connect(mapStateToProps)(AuthorsList);
+const mapDispatchToProps = dispatch => ({
+    fetchAuthors: () => dispatch(fetchAuthors()),
+    fetchBooks: () => dispatch(fetchBooks()),
+    fetchBookings: () => dispatch(fetchBookings())
+})
+export default connect(mapStateToProps,mapDispatchToProps)(AuthorsList);

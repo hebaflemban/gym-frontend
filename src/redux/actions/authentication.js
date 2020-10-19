@@ -55,6 +55,7 @@ const setCurrentUser = (token) => {
         payload: user
     }
 }
+
 export const logout = () => setCurrentUser();
 
 export const checkForExpiredToken = () => {

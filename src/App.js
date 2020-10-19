@@ -51,7 +51,7 @@ const App = ({ loading, user }) => {
 const mapStateToProps = ({ authors, user }) => ({
   authors,
   user,
-  loading: !authors,
+  loading: !user,
 });
 
 export default connect(mapStateToProps)(App);
